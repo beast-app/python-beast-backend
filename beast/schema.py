@@ -51,17 +51,6 @@ def demo_middleware(next_middleware, root, info, *args, **kwds):
     For more information read:
     https://docs.graphene-python.org/en/latest/execution/middleware/#middleware
     """
-    # Skip Graphiql introspection requests, there are a lot.
-    # if (
-    #     info.operation.name is not None
-    #     and info.operation.name.value != "IntrospectionQuery"
-    # ):
-    #     print("Demo middleware report")
-    #     print("    operation :", info.operation.operation)
-    #     print("    name      :", info.operation.name.value)
-    #
-    # # Invoke next middleware.
-    # return next_middleware(root, info, *args, **kwds)
     result = next_middleware(root, info, **args)
     if info.operation.operation == 'subscription' and isinstance(result, Promise):
         return result.get()
